@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="shortcut icon" href="#" type="image/x-icon">
-    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"
+        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
     <header class="header">
-        <nav data-hx-trigger="load" data-hx-swap="outerHTML" data-hx-get="global.header-nav.partial.html"></nav>
+
     </header>
     <main class="main">
-        
+        <section class="form">
+            <h2>➕ Додати товар</h2>
+            <input type="text" placeholder="Назва товару" id="name">
+            <input type="number" placeholder="Ціна" id="price">
+            <input type="number" placeholder="Кількість" id="qty">
+            <button id="addBtn">Додати</button>
+        </section>
+        <section class="search">
+            <h2>🔍 Пошук</h2>
+            <input type="text" placeholder="🔍 Пошук товару" id="searchInput">
+        </section>
+        <section class="products">
+            <h2>🛒 Товари</h2>
+            <div id="productsList"></div>
+        </section>
     </main>
     <footer class="footer">
-        
+
     </footer>
+    <script src="script.js"></script>
 </body>
+
 </html>
