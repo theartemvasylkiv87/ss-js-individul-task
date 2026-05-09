@@ -1,20 +1,31 @@
 console.log("Hello, World! This is a simple JavaScript file.");
 
-const nameAddProduct = document.querySelector('#name')
-const priceAddProduct = document.querySelector('#price')
-const quantityAddProduct = document.querySelector('#qty')
-const addProductButton = document.querySelector('#addBtn')
-const searchInput = document.querySelector('#searchInput')
-const productsList = document.querySelector('#productsList')
+// Посилання на поля вводу (Inputs)
+const nameInput = document.querySelector('#name');
+const priceInput = document.querySelector('#price');
+const qtyInput = document.querySelector('#qty');
 
-const products = [];
+// Посилання на кнопки (Buttons)
+const addBtn = document.querySelector('#addBtn');
 
-addProductButton.addEventListener('click', addProduct)
+// Посилання на елементи керування та відображення
+const searchInput = document.querySelector('#searchInput');
+const productsContainer = document.querySelector('#productsList'); // Container — бо він містить список
+
+// Наш масив даних (модель)
+let products = [];
+
+addBtn.addEventListener('click', addProduct)
 
 function addProduct() {
-    const name = nameAddProduct.value;
-    const price = priceAddProduct.value;
-    const quantity = quantityAddProduct.value;
+    const name = nameInput.value;
+    const price = Number(priceInput.value);
+    const quantity = Number(qtyInput.value);
+
+    if (!name || !price || !quantity) {
+        alert('Please fill in all fields with valid values.');
+        return
+    }
 
     const product = {
         id: Date.now(),
@@ -25,21 +36,29 @@ function addProduct() {
     products.push(product);
     console.log(products);
     renderProducts();
+    clearInputs()
 }
 
 function renderProducts() {
 
-    productsList.innerHTML = '';
+    productsContainer.innerHTML = '';
 
     products.forEach(product => {
-        productsList.innerHTML += `
-        <div>
-        <h3>${product.name}</h3>
-        <p>Price: ${product.price}</p>
-        <p>Quantity: ${product.quantity}</p>
-        </div>
-        `
+        const productElement = document.createElement('div');
+        productElement.classList.add('product-item');
+        productElement.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>Price: $${product.price.toFixed(2)}</p>
+            <p>Quantity: ${product.quantity}</p>
+        `;
+        productsContainer.appendChild(productElement);
     })
+}
+
+function clearInputs() {
+    nameInput.value = '';
+    priceInput.value = '';
+    qtyInput.value = '';
 }
 
 
