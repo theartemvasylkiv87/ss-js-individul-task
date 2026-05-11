@@ -37,6 +37,7 @@ function addProduct() {
     console.log(products);
     renderProducts();
     clearInputs()
+    updateTotalPrice();
 }
 
 function renderProducts() {
@@ -50,9 +51,22 @@ function renderProducts() {
             <h3>${product.name}</h3>
             <p>Price: $${product.price.toFixed(2)}</p>
             <p>Quantity: ${product.quantity}</p>
+            <button onclick="deleteProduct(${product.id})">Видалити 🗑️</button>
         `;
         productsContainer.appendChild(productElement);
     })
+}
+
+function deleteProduct(id) {
+    products = products.filter(product => product.id !== id);
+    renderProducts();
+    updateTotalPrice()
+}
+
+function updateTotalPrice() {
+    const totalPrice = document.querySelector('#totalPrice');
+    const total = products.reduce((sum, product) => sum + (product.price * product.quantity), 0);
+    totalPrice.textContent = `Total: $${total.toFixed(2)}`;
 }
 
 function clearInputs() {
