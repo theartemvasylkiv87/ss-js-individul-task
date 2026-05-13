@@ -13,7 +13,11 @@ const searchInput = document.querySelector('#searchInput');
 const productsContainer = document.querySelector('#productsList'); // Container — бо він містить список
 
 // Наш масив даних (модель)
-let products = [];
+let products = JSON.parse(localStorage.getItem('myProducts')) || [];
+
+// Одразу малюємо те, що дістали з пам'яті
+renderProducts();
+updateTotalPrice();
 
 addBtn.addEventListener('click', addProduct)
 
@@ -38,13 +42,14 @@ function addProduct() {
     renderProducts();
     clearInputs()
     updateTotalPrice();
+    saveToLocalStorage()
 }
 
-function renderProducts() {
+function renderProducts(productsToRender = products) {
 
     productsContainer.innerHTML = '';
 
-    products.forEach(product => {
+    productsToRender.forEach(product => {
         const productElement = document.createElement('div');
         productElement.classList.add('product-item');
         productElement.innerHTML = `
@@ -60,7 +65,8 @@ function renderProducts() {
 function deleteProduct(id) {
     products = products.filter(product => product.id !== id);
     renderProducts();
-    updateTotalPrice()
+    updateTotalPrice();
+    saveToLocalStorage();
 }
 
 function updateTotalPrice() {
@@ -75,8 +81,18 @@ function clearInputs() {
     qtyInput.value = '';
 }
 
+searchInput.addEventListener('input', searchProducts);
+
+function searchProducts() {
+    const query = searchInput.value.toLowerCase();
+    const filteredProducts = products.filter(product => product.name.toLowerCase().includes(query));
+    renderProducts(filteredProducts);
+}
 
 
+function saveToLocalStorage() {
+    localStorage.setItem('myProducts', JSON.stringify(products));
+}
 // console.log(nameAddProduct)
 // console.log(priceAddProduct)
 // console.log(quantityAddProduct)
