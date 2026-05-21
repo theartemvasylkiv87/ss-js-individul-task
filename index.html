@@ -24,8 +24,8 @@
         <nav class="nav">
           <a href="#" class="nav-link">Inventory</a>
           <a href="#" class="nav-link">Orders</a>
-          <a href="#" class="nav-link"
-            id="cartLink">Cart <span class="cart-count">0</span></a
+          <a href="#" class="nav-link" id="cartLink"
+            >Cart <span class="cart-count">0</span></a
           >
         </nav>
       </div>
@@ -83,13 +83,13 @@
       </section>
     </main>
     <footer class="footer"></footer>
-        <div class="cart-overlay" id="cartOverlay"></div>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
 
     <aside class="cart-drawer" id="cartDrawer">
-      
       <div class="cart-drawer__header">
-        <h2>Your Cart 🛍️</h2>
-        <button class="cart-drawer__close" id="closeCartBtn">❌</button>
+        <h2 class="cart-drawer__title">Your Cart 🛍️</h2>
+        <button class="cart-drawer__close" id="closeCartBtn">✖️</button>
       </div>
 
       <div class="cart-drawer__items" id="cartItems">
@@ -98,12 +98,11 @@
 
       <div class="cart-drawer__footer">
         <div class="cart-drawer__total">
-          <span>Subtotal:</span>
+          <span class="cart-drawer__total-label">Subtotal:</span>
           <span id="cartTotalPrice">$0.00</span>
         </div>
         <button class="cart-drawer__checkout" id="checkoutBtn">Checkout</button>
       </div>
-
     </aside>
     <script src="script.js"></script>
   </body>
