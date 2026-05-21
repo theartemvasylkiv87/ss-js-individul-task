@@ -32,29 +32,48 @@
     </header>
     <main class="main">
       <section class="form">
-        <h2>➕ Register New Watch</h2>
+        <h2 class="form__title">➕ Register New Watch</h2>
         <input
           type="text"
-          placeholder="Brand & Model (e.g. Rolex Submariner)"
+          placeholder="Brand & Model"
           id="name"
+          class="form__input form__name"
         />
-        <input type="number" placeholder="Price per unit ($)" id="price" />
-        <input type="number" placeholder="In Stock (pcs)" id="qty" />
+        <input
+          type="number"
+          placeholder="Price per unit ($)"
+          id="price"
+          class="form__input form__price"
+        />
+        <input
+          type="number"
+          placeholder="In Stock (pcs)"
+          id="qty"
+          class="form__input form__quantity"
+        />
         <input
           type="text"
-          placeholder="Image URL (e.g. https://...)"
+          placeholder="Image URL"
           id="image"
+          class="form__input form__image"
         />
-        <button id="addBtn">Add to Inventory</button>
+        <button class="form__button" id="addBtn">Add to Inventory</button>
       </section>
 
-      <section class="search">
-        <h2>🔍 Search</h2>
-        <input type="text" placeholder="Search products..." id="searchInput" />
-      </section>
+      <section class="inventory">
+        <div class="inventory__header">
+          <h2>🛒 Current Stock</h2>
+          <div class="search-box">
+            <input
+              type="text"
+              placeholder="Filter watches..."
+              id="searchInput"
+              class="search-box__input"
+            />
+            <span class="search-box__icon">🔍</span>
+          </div>
+        </div>
 
-      <section class="products">
-        <h2>🛒 Current Stock</h2>
         <div id="productsList" class="products-list"></div>
       </section>
 

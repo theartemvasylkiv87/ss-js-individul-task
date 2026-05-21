@@ -80,14 +80,6 @@ const defaultProducts = [
   },
 ];
 
-// Наш масив даних (модель)
-let products =
-  JSON.parse(localStorage.getItem("myProducts")) || defaultProducts;
-
-// Одразу малюємо те, що дістали з пам'яті
-renderProducts();
-updateTotalPrice();
-
 addBtn.addEventListener("click", addProduct);
 
 function addProduct() {
@@ -109,15 +101,20 @@ function addProduct() {
     image: image || "https://example.com/default-watch.jpg",
   };
   products.push(product);
-  console.log(products);
   renderProducts();
   clearInputs();
   updateTotalPrice();
   saveToLocalStorage();
 }
 
+
 function renderProducts(productsToRender = products) {
   productsContainer.innerHTML = "";
+
+  if (productsToRender.length === 0) {
+    productsContainer.innerHTML = `<p class="no-results">No watches found matching your search... 🔍</p>`;
+    return;
+  }
 
   productsToRender.forEach((product) => {
     const productElement = document.createElement("div");
@@ -133,11 +130,12 @@ function renderProducts(productsToRender = products) {
   });
 }
 
-function deleteProduct(id) {
-  products = products.filter((product) => product.id !== id);
-  renderProducts();
-  updateTotalPrice();
-  saveToLocalStorage();
+
+function clearInputs() {
+  nameInput.value = "";
+  priceInput.value = "";
+  qtyInput.value = "";
+  imageInput.value = "";
 }
 
 function updateTotalPrice() {
@@ -149,11 +147,23 @@ function updateTotalPrice() {
   totalPrice.textContent = `Total: $${total.toFixed(2)}`;
 }
 
-function clearInputs() {
-  nameInput.value = "";
-  priceInput.value = "";
-  qtyInput.value = "";
-  imageInput.value = "";
+function saveToLocalStorage() {
+  localStorage.setItem("myProducts", JSON.stringify(products));
+}
+
+// Наш масив даних (модель)
+let products =
+  JSON.parse(localStorage.getItem("myProducts")) || defaultProducts;
+
+// Одразу малюємо те, що дістали з пам'яті
+renderProducts();
+updateTotalPrice();
+
+function deleteProduct(id) {
+  products = products.filter((product) => product.id !== id);
+  renderProducts();
+  updateTotalPrice();
+  saveToLocalStorage();
 }
 
 searchInput.addEventListener("input", searchProducts);
@@ -166,9 +176,6 @@ function searchProducts() {
   renderProducts(filteredProducts);
 }
 
-function saveToLocalStorage() {
-  localStorage.setItem("myProducts", JSON.stringify(products));
-}
 // console.log(nameAddProduct)
 // console.log(priceAddProduct)
 // console.log(quantityAddProduct)
