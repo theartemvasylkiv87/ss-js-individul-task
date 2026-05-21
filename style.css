@@ -210,6 +210,49 @@ body {
   }
 }
 
+/* 1. Напівпрозорий фон */
+.cart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  z-index: 999; /* Поверх сайту, але під кошиком */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* 2. Контейнер кошика */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: white;
+  z-index: 1000; /* Найвищий пріоритет */
+  display: flex;
+  flex-direction: column; /* Елементи один під одним */
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+
+  /* ХОВАЄМО */
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* КЛАСИ ДЛЯ ВІДКРИТТЯ (будемо додавати через JS) */
+.cart-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cart-drawer.open {
+  transform: translateX(0); /* Повертаємо на екран */
+}
+
 /* Описуємо саму анімацію руху фону */
 @keyframes gradientAnimation {
   0% {

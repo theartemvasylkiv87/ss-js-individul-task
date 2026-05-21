@@ -12,6 +12,7 @@ const addBtn = document.querySelector("#addBtn");
 // Посилання на елементи керування та відображення
 const searchInput = document.querySelector("#searchInput");
 const productsContainer = document.querySelector("#productsList"); // Container — бо він містить список
+
 // Початкові дані (8 годинників за замовчуванням)
 const defaultProducts = [
   {
@@ -79,6 +80,25 @@ const defaultProducts = [
       "https://cdsassets.apple.com/live/7WUAS350/images/tech-specs/apple-watch-series-9.png",
   },
 ];
+
+// 1. Правильні посилання на елементи
+const cartBtn = document.querySelector('#cartLink');
+const cartDrawer = document.querySelector('#cartDrawer'); // краще за ID
+const closeCartBtn = document.querySelector('#closeCartBtn');
+const cartOverlay = document.querySelector('#cartOverlay'); // виправлено селектор
+
+// 2. Універсальна функція перемикання
+function toggleCartDrawer(e) {
+  if (e) e.preventDefault(); // зупиняємо перезавантаження сторінки
+  
+  cartDrawer.classList.toggle('open');
+  cartOverlay.classList.toggle('open'); // тепер і фон буде темніти
+}
+
+// 3. Призначаємо подію на ВСІ необхідні елементи
+cartBtn.addEventListener('click', toggleCartDrawer);      // Відкрити
+closeCartBtn.addEventListener('click', toggleCartDrawer); // Закрити на X
+cartOverlay.addEventListener('click', toggleCartDrawer);  // Закрити кліком по фону
 
 addBtn.addEventListener("click", addProduct);
 

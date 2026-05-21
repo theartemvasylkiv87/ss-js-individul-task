@@ -25,7 +25,7 @@
           <a href="#" class="nav-link">Inventory</a>
           <a href="#" class="nav-link">Orders</a>
           <a href="#" class="nav-link"
-            >Cart <span class="cart-count">0</span></a
+            id="cartLink">Cart <span class="cart-count">0</span></a
           >
         </nav>
       </div>
@@ -83,6 +83,28 @@
       </section>
     </main>
     <footer class="footer"></footer>
+        <div class="cart-overlay" id="cartOverlay"></div>
+
+    <aside class="cart-drawer" id="cartDrawer">
+      
+      <div class="cart-drawer__header">
+        <h2>Your Cart 🛍️</h2>
+        <button class="cart-drawer__close" id="closeCartBtn">❌</button>
+      </div>
+
+      <div class="cart-drawer__items" id="cartItems">
+        <p class="cart-drawer__empty">Your cart is empty.</p>
+      </div>
+
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__total">
+          <span>Subtotal:</span>
+          <span id="cartTotalPrice">$0.00</span>
+        </div>
+        <button class="cart-drawer__checkout" id="checkoutBtn">Checkout</button>
+      </div>
+
+    </aside>
     <script src="script.js"></script>
   </body>
 </html>
