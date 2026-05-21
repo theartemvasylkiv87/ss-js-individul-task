@@ -1,45 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="shortcut icon" href="#" type="image/x-icon">
-    <script src="https://unpkg.com/htmx.org@1.9.10"
-        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-        crossorigin="anonymous"></script>
-</head>
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://unpkg.com/htmx.org@1.9.10"
+      integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body>
+  <body>
     <header class="header">
+      <div class="header-container">
+        <div class="logo">
+          <span class="logo-icon">⌚</span>
+          <span class="logo-text">WatchVault</span>
+        </div>
 
+        <nav class="nav">
+          <a href="#" class="nav-link">Inventory</a>
+          <a href="#" class="nav-link">Orders</a>
+          <a href="#" class="nav-link"
+            >Cart <span class="cart-count">0</span></a
+          >
+        </nav>
+      </div>
     </header>
     <main class="main">
-        <section class="form">
-            <h2>➕ Додати товар</h2>
-            <input type="text" placeholder="Назва товару" id="name">
-            <input type="number" placeholder="Ціна" id="price">
-            <input type="number" placeholder="Кількість" id="qty">
-            <button id="addBtn">Додати</button>
-        </section>
-        <section class="search">
-            <h2>🔍 Пошук</h2>
-            <input type="text" placeholder="🔍 Пошук товару" id="searchInput">
-        </section>
-        <section class="products">
-            <h2>🛒 Товари</h2>
-            <div id="productsList"></div>
-        </section>
-        <section class="total">
-            <h2>💰 Загальна вартість</h2>
-            <p id="totalPrice">Total: $0.00</p>
-        </section>
+      <section class="form">
+        <h2>➕ Register New Watch</h2>
+        <input
+          type="text"
+          placeholder="Brand & Model (e.g. Rolex Submariner)"
+          id="name"
+        />
+        <input type="number" placeholder="Price per unit ($)" id="price" />
+        <input type="number" placeholder="In Stock (pcs)" id="qty" />
+        <button id="addBtn">Add to Inventory</button>
+      </section>
+
+      <section class="search">
+        <h2>🔍 Search</h2>
+        <input type="text" placeholder="Search products..." id="searchInput" />
+      </section>
+
+      <section class="products">
+        <h2>🛒 Current Stock</h2>
+        <div id="productsList" class="products-list"></div>
+      </section>
+
+      <section class="total">
+        <h2>💰 Financial Summary</h2>
+        <p id="totalPrice">Total Value: $0.00</p>
+      </section>
     </main>
-    <footer class="footer">
-
-    </footer>
+    <footer class="footer"></footer>
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>
