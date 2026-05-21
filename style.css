@@ -87,6 +87,14 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
+
+    .product-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover; /* Картинка заповнить блок без деформації */
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
   }
   .product-item:hover {
     transform: translateY(-5px);
