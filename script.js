@@ -1,19 +1,8 @@
 console.log("Hello, World! This is a simple JavaScript file.");
 
-// Посилання на поля вводу (Inputs)
-const nameInput = document.querySelector("#name");
-const priceInput = document.querySelector("#price");
-const qtyInput = document.querySelector("#qty");
-const imageInput = document.querySelector("#image");
-
-// Посилання на кнопки (Buttons)
-const addBtn = document.querySelector("#addBtn");
-
-// Посилання на елементи керування та відображення
-const searchInput = document.querySelector("#searchInput");
-const productsContainer = document.querySelector("#productsList"); // Container — бо він містить список
-
-// Початкові дані (8 годинників за замовчуванням)
+/* ==========================================
+   1. STATE (СТАН ДОДАТКУ - ДАНІ)
+========================================== */
 const defaultProducts = [
   {
     id: 1,
@@ -81,27 +70,48 @@ const defaultProducts = [
   },
 ];
 
-// 1. Правильні посилання на елементи
-const cartBtn = document.querySelector('#cartLink');
-const cartDrawer = document.querySelector('#cartDrawer'); // краще за ID
-const closeCartBtn = document.querySelector('#closeCartBtn');
-const cartOverlay = document.querySelector('#cartOverlay'); // виправлено селектор
+let products =
+  JSON.parse(localStorage.getItem("myProducts")) || defaultProducts;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// 2. Універсальна функція перемикання
-function toggleCartDrawer(e) {
-  if (e) e.preventDefault(); // зупиняємо перезавантаження сторінки
-  
-  cartDrawer.classList.toggle('open');
-  cartOverlay.classList.toggle('open'); // тепер і фон буде темніти
-}
+/* ==========================================
+   2. DOM ELEMENTS (ЕЛЕМЕНТИ ІНТЕРФЕЙСУ)
+========================================== */
+// Форма додавання
+const nameInput = document.querySelector("#name");
+const priceInput = document.querySelector("#price");
+const qtyInput = document.querySelector("#qty");
+const imageInput = document.querySelector("#image");
+const addBtn = document.querySelector("#addBtn");
 
-// 3. Призначаємо подію на ВСІ необхідні елементи
-cartBtn.addEventListener('click', toggleCartDrawer);      // Відкрити
-closeCartBtn.addEventListener('click', toggleCartDrawer); // Закрити на X
-cartOverlay.addEventListener('click', toggleCartDrawer);  // Закрити кліком по фону
+// Вітрина та пошук
+const searchInput = document.querySelector("#searchInput");
+const productsContainer = document.querySelector("#productsList");
+const totalPriceEl = document.querySelector("#totalPrice");
 
+// Кошик
+const cartBtn = document.querySelector("#cartLink");
+const cartDrawer = document.querySelector("#cartDrawer");
+const closeCartBtn = document.querySelector("#closeCartBtn");
+const cartOverlay = document.querySelector("#cartOverlay");
+const cartItemsContainer = document.querySelector("#cartItems");
+const cartTotalPriceEl = document.querySelector("#cartTotalPrice");
+const cartCountBadge = document.querySelector(".cart-count"); // Цифра біля іконки кошика
+
+/* ==========================================
+   3. EVENT LISTENERS (СЛУХАЧІ ПОДІЙ)
+========================================== */
 addBtn.addEventListener("click", addProduct);
+searchInput.addEventListener("input", searchProducts);
 
+// Управління відкриттям/закриттям кошика
+cartBtn.addEventListener("click", toggleCartDrawer);
+closeCartBtn.addEventListener("click", toggleCartDrawer);
+cartOverlay.addEventListener("click", toggleCartDrawer);
+
+/* ==========================================
+   4. FUNCTIONS - PRODUCTS LIST (ВІТРИНА)
+========================================== */
 function addProduct() {
   const name = nameInput.value;
   const price = Number(priceInput.value);
@@ -115,18 +125,18 @@ function addProduct() {
 
   const product = {
     id: Date.now(),
-    name: name,
-    price: price,
-    quantity: quantity,
+    name,
+    price,
+    quantity,
     image: image || "https://example.com/default-watch.jpg",
   };
+
   products.push(product);
   renderProducts();
   clearInputs();
   updateTotalPrice();
   saveToLocalStorage();
 }
-
 
 function renderProducts(productsToRender = products) {
   productsContainer.innerHTML = "";
@@ -138,46 +148,20 @@ function renderProducts(productsToRender = products) {
 
   productsToRender.forEach((product) => {
     const productElement = document.createElement("div");
-    productElement.classList.add("product-item"); // CSS знайде цей клас
+    productElement.classList.add("product-item");
     productElement.innerHTML = `
-            <h3>${product.name}</h3>
-            <img src="${product.image}" alt="${product.name}" class="product-img" />
-            <p>Price: $${product.price.toFixed(2)}</p>
-            <p>Quantity: ${product.quantity}</p>
-            <button onclick="deleteProduct(${product.id})">Remove 🗑️</button>
-        `;
+      <h3>${product.name}</h3>
+      <img src="${product.image}" alt="${product.name}" class="product-img" />
+      <p>Price: $${product.price.toFixed(2)}</p>
+      <p>In Stock: ${product.quantity}</p>
+      <div class="product-item__actions">
+        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add to Cart 🛒</button>
+        <button class="delete-btn" onclick="deleteProduct(${product.id})">Remove 🗑️</button>
+      </div>
+    `;
     productsContainer.appendChild(productElement);
   });
 }
-
-
-function clearInputs() {
-  nameInput.value = "";
-  priceInput.value = "";
-  qtyInput.value = "";
-  imageInput.value = "";
-}
-
-function updateTotalPrice() {
-  const totalPrice = document.querySelector("#totalPrice");
-  const total = products.reduce(
-    (sum, product) => sum + product.price * product.quantity,
-    0,
-  );
-  totalPrice.textContent = `Total: $${total.toFixed(2)}`;
-}
-
-function saveToLocalStorage() {
-  localStorage.setItem("myProducts", JSON.stringify(products));
-}
-
-// Наш масив даних (модель)
-let products =
-  JSON.parse(localStorage.getItem("myProducts")) || defaultProducts;
-
-// Одразу малюємо те, що дістали з пам'яті
-renderProducts();
-updateTotalPrice();
 
 function deleteProduct(id) {
   products = products.filter((product) => product.id !== id);
@@ -185,8 +169,6 @@ function deleteProduct(id) {
   updateTotalPrice();
   saveToLocalStorage();
 }
-
-searchInput.addEventListener("input", searchProducts);
 
 function searchProducts() {
   const query = searchInput.value.toLowerCase();
@@ -196,8 +178,98 @@ function searchProducts() {
   renderProducts(filteredProducts);
 }
 
-// console.log(nameAddProduct)
-// console.log(priceAddProduct)
-// console.log(quantityAddProduct)
-// console.log(addProductButton)
-// console.log(searchInput)
+function clearInputs() {
+  nameInput.value = "";
+  priceInput.value = "";
+  qtyInput.value = "";
+  imageInput.value = "";
+}
+
+function updateTotalPrice() {
+  const total = products.reduce(
+    (sum, product) => sum + product.price * product.quantity,
+    0,
+  );
+  totalPriceEl.textContent = `Total Value: $${total.toFixed(2)}`;
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("myProducts", JSON.stringify(products));
+}
+
+/* ==========================================
+   5. FUNCTIONS - CART (КОШИК)
+========================================== */
+function toggleCartDrawer(e) {
+  if (e) e.preventDefault();
+  cartDrawer.classList.toggle("open");
+  cartOverlay.classList.toggle("open");
+}
+
+function addToCart(productId) {
+  const product = products.find((p) => p.id === productId);
+  if (!product) return;
+
+  cart.push(product);
+
+  renderCart();
+  saveCartToLocalStorage();
+
+  // Додатково: відкриваємо кошик при додаванні товару, щоб юзер побачив результат
+  if (!cartDrawer.classList.contains("open")) {
+    toggleCartDrawer();
+  }
+}
+
+function renderCart() {
+  cartItemsContainer.innerHTML = "";
+
+  // 1. Оновлюємо бейдж (цифру) у хедері
+  cartCountBadge.textContent = cart.length;
+
+  // 2. Якщо кошик порожній — показуємо повідомлення
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `<p class="cart-drawer__empty">Your cart is empty.</p>`;
+    cartTotalPriceEl.textContent = `$0.00`;
+    return;
+  }
+
+  // 3. Малюємо товари в кошику
+  let cartTotal = 0;
+
+  cart.forEach((item, index) => {
+    cartTotal += item.price; // Рахуємо суму
+
+    const cartItemEl = document.createElement("div");
+    // Можна додати клас для стилізації елемента в CSS
+    cartItemEl.style.display = "flex";
+    cartItemEl.style.gap = "10px";
+    cartItemEl.style.alignItems = "center";
+    cartItemEl.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
+    cartItemEl.style.paddingBottom = "10px";
+
+    cartItemEl.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
+      <div style="flex: 1;">
+        <h4 style="font-size: 0.9rem; margin-bottom: 4px;">${item.name}</h4>
+        <p style="font-size: 0.9rem; font-weight: bold;">$${item.price.toFixed(2)}</p>
+        <button class="cart-item__remove" onclick="removeFromCart(${index})">❌</button>
+      </div>
+    `;
+    cartItemsContainer.appendChild(cartItemEl);
+  });
+
+  // 4. Оновлюємо загальну суму кошика
+  cartTotalPriceEl.textContent = `$${cartTotal.toFixed(2)}`;
+}
+
+function saveCartToLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* ==========================================
+   6. INITIALIZATION (ЗАПУСК ПРИ ЗАВАНТАЖЕННІ)
+========================================== */
+renderProducts();
+updateTotalPrice();
+renderCart(); // Одразу малюємо кошик (якщо там вже щось збережено)

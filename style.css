@@ -199,8 +199,35 @@ body {
     color: #1a202c;
     margin-bottom: 10px;
   }
-  .product-item button {
-    background: #fc8181;
+
+  .product-item__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .add-to-cart-btn {
+    flex: 1; /* Кнопка займе більше місця */
+    background: #3182ce !important; /* Синій колір */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition:
+      transform 0.2s,
+      background 0.3s;
+  }
+
+  .add-to-cart-btn:hover {
+    background: #2b6cb0 !important;
+    transform: scale(1.05);
+  }
+
+  .delete-btn {
+    background: #fc8181; /* Твоя стара червона кнопка */
+    /* інші стилі вже є */
     color: white;
     border: none;
     padding: 8px 12px;
@@ -279,62 +306,65 @@ body {
     }
   }
 
-  .cart-drawer__items{
+  .cart-drawer__items {
     flex: 1; /* Займає весь доступний простір */
     overflow-y: auto; /* Додаємо прокрутку, якщо товарів багато */
     padding: 0 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    .cart-drawer__empty {
+      text-align: center;
+      margin-top: 50px;
+      color: #a0aec0;
+      font-style: italic;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cart-drawer__empty::before {
+      content: "🛒";
+      font-size: 3rem;
+      opacity: 0.3;
+    }
   }
-}
 
-.cart-drawer__empty {
-  text-align: center;
-  margin-top: 50px;
-  color: #a0aec0;
-  font-style: italic;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .cart-drawer__footer {
+    padding: 20px;
+    .cart-drawer__total {
+      .cart-drawer__empty__total-label {
+        font-size: 1.2rem;
+        color: #4a5568;
+      }
 
-.cart-drawer__empty__total-label {
-  font-size: 1.2rem;
-  color: #4a5568;
-}
+      .cart-drawer__total-value {
+        font-family:
+          "Monaco", monospace; /* Моноширинний шрифт для цифр виглядає круто */
+        color: #2b6cb0;
+        font-size: 1.4rem;
+      }
+    }
+    .cart-drawer__checkout {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      width: 100%; /* Кнопка на всю ширину */
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: transform 0.2s;
+    }
 
-.cart-drawer__empty::before {
-  content: "🛒";
-  font-size: 3rem;
-  opacity: 0.3;
-}
-
-.cart-drawer__total span:last-child {
-  font-family:
-    "Monaco", monospace; /* Моноширинний шрифт для цифр виглядає круто */
-  color: #2b6cb0;
-  font-size: 1.4rem;
-}
-
-.cart-drawer__checkout {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 700;
-  width: 100%; /* Кнопка на всю ширину */
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  color: white;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: transform 0.2s;
-}
-
-.cart-drawer__checkout:active {
-  transform: scale(0.98); /* Ефект натискання */
+    .cart-drawer__checkout:active {
+      transform: scale(0.98); /* Ефект натискання */
+    }
+  }
 }
 
 /* КЛАСИ ДЛЯ ВІДКРИТТЯ (будемо додавати через JS) */
