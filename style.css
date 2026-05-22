@@ -208,7 +208,7 @@ body {
 
   .add-to-cart-btn {
     flex: 1; /* Кнопка займе більше місця */
-    background: #3182ce !important; /* Синій колір */
+    background: #3182ce; /* Синій колір */
     color: white;
     border: none;
     padding: 10px;
@@ -221,7 +221,7 @@ body {
   }
 
   .add-to-cart-btn:hover {
-    background: #2b6cb0 !important;
+    background: #2b6cb0;
     transform: scale(1.05);
   }
 
@@ -238,20 +238,6 @@ body {
 }
 
 /* 1. Напівпрозорий фон */
-.cart-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
-  z-index: 999; /* Поверх сайту, але під кошиком */
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
 /* 2. Контейнер кошика */
 .cart-drawer {
   position: fixed;
@@ -262,13 +248,10 @@ body {
   background: linear-gradient(-45deg, #fef9e7, #ebf5fb, #fefded, #d6eaf8);
   animation: gradientAnimation 15s ease infinite;
   background-size: 400% 400%;
-
-  z-index: 1000; /* Найвищий пріоритет */
+  z-index: 1000;
   display: flex;
-  flex-direction: column; /* Елементи один під одним */
+  flex-direction: column;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
-
-  /* ХОВАЄМО */
   transform: translateX(100%);
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 
@@ -301,18 +284,19 @@ body {
     }
 
     .cart-drawer__close:hover {
-      background: rgba(239, 68, 68, 0.1); /* Легкий червоний при наведенні */
+      background: rgba(239, 68, 68, 0.1);
       transform: rotate(90deg);
     }
   }
 
   .cart-drawer__items {
-    flex: 1; /* Займає весь доступний простір */
-    overflow-y: auto; /* Додаємо прокрутку, якщо товарів багато */
+    flex: 1;
+    overflow-y: auto;
     padding: 0 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+
     .cart-drawer__empty {
       text-align: center;
       margin-top: 50px;
@@ -321,37 +305,118 @@ body {
       display: flex;
       flex-direction: column;
       gap: 10px;
+
+      .cart-drawer__empty-icon {
+        content: "🛒";
+        font-size: 3rem;
+        opacity: 0.3;
+      }
     }
 
-    .cart-drawer__empty::before {
-      content: "🛒";
-      font-size: 3rem;
-      opacity: 0.3;
+    /* === СТИЛІ ДЛЯ КАРТКИ ТОВАРУ (ВКЛАДЕНІ СЮДИ) === */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition:
+        transform 0.2s,
+        background 0.2s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .cart-item__img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .cart-item__info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Вирівнюємо текст по лівому краю (до картинки) */
+        gap: 4px;
+      }
+
+      .cart-item__name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1a202c;
+      }
+
+      .cart-item__price {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #2b6cb0;
+      }
+
+      .cart-item__remove {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: rgba(239, 68, 68, 0.1);
+          transform: scale(1.15);
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
+      }
     }
   }
 
   .cart-drawer__footer {
     padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+
     .cart-drawer__total {
-      .cart-drawer__empty__total-label {
-        font-size: 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .cart-drawer__total-label {
+        font-size: 1.1rem;
+        font-weight: 600;
         color: #4a5568;
       }
 
       .cart-drawer__total-value {
-        font-family:
-          "Monaco", monospace; /* Моноширинний шрифт для цифр виглядає круто */
+        font-family: "Monaco", monospace;
         color: #2b6cb0;
         font-size: 1.4rem;
+        font-weight: 700;
       }
     }
+
     .cart-drawer__checkout {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 700;
-      width: 100%; /* Кнопка на всю ширину */
+      width: 100%;
       padding: 15px;
       border: none;
       border-radius: 12px;
@@ -359,22 +424,32 @@ body {
       cursor: pointer;
       margin-top: 15px;
       transition: transform 0.2s;
-    }
 
-    .cart-drawer__checkout:active {
-      transform: scale(0.98); /* Ефект натискання */
+      &:active {
+        transform: scale(0.98);
+      }
     }
   }
 }
 
-/* КЛАСИ ДЛЯ ВІДКРИТТЯ (будемо додавати через JS) */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 900;
+}
+
+/* КЛАСИ ДЛЯ ВІДКРИТТЯ */
 .cart-overlay.open {
   opacity: 1;
   pointer-events: auto;
 }
 
 .cart-drawer.open {
-  transform: translateX(0); /* Повертаємо на екран */
+  transform: translateX(0);
 }
 
 /* Описуємо саму анімацію руху фону */
@@ -382,11 +457,9 @@ body {
   0% {
     background-position: 0% 50%;
   }
-
   50% {
     background-position: 100% 50%;
   }
-
   100% {
     background-position: 0% 50%;
   }

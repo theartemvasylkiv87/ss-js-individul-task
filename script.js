@@ -238,24 +238,21 @@ function renderCart() {
   let cartTotal = 0;
 
   cart.forEach((item, index) => {
-    cartTotal += item.price; // Рахуємо суму
+    cartTotal += item.price;
 
     const cartItemEl = document.createElement("div");
-    // Можна додати клас для стилізації елемента в CSS
-    cartItemEl.style.display = "flex";
-    cartItemEl.style.gap = "10px";
-    cartItemEl.style.alignItems = "center";
-    cartItemEl.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
-    cartItemEl.style.paddingBottom = "10px";
+    cartItemEl.classList.add("cart-item"); // Наш головний флекс-контейнер
 
     cartItemEl.innerHTML = `
-      <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
-      <div style="flex: 1;">
-        <h4 style="font-size: 0.9rem; margin-bottom: 4px;">${item.name}</h4>
-        <p style="font-size: 0.9rem; font-weight: bold;">$${item.price.toFixed(2)}</p>
-        <button class="cart-item__remove" onclick="removeFromCart(${index})">❌</button>
-      </div>
-    `;
+    <img src="${item.image}" alt="${item.name}" class="cart-item__img">
+    
+    <div class="cart-item__info">
+      <h4 class="cart-item__name">${item.name}</h4>
+      <p class="cart-item__price">$${item.price.toFixed(2)}</p>
+    </div>
+    
+    <button class="cart-item__remove" onclick="removeFromCart(${index})">✖️</button>
+  `;
     cartItemsContainer.appendChild(cartItemEl);
   });
 
@@ -265,6 +262,12 @@ function renderCart() {
 
 function saveCartToLocalStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  renderCart();
+  saveCartToLocalStorage();
 }
 
 /* ==========================================
