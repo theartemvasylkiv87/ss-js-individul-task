@@ -64,14 +64,26 @@
         <section class="inventory">
           <div class="inventory__header">
             <h2>🛒 Current Stock</h2>
-            <div class="search-box">
-              <input
-                type="text"
-                placeholder="Filter watches..."
-                id="searchInput"
+            <div class="inventory__actions">
+              <select
+                id="sortSelect"
                 class="search-box__input"
-              />
-              <span class="search-box__icon">🔍</span>
+                style="width: auto; margin-right: 10px"
+              >
+                <option value="default">Default</option>
+                <option value="price-desc">Price: High to Low ↓</option>
+                <option value="price-asc">Price: Low to High ↑</option>
+              </select>
+
+              <div class="search-box">
+                <input
+                  type="text"
+                  placeholder="Filter watches..."
+                  id="searchInput"
+                  class="search-box__input"
+                />
+                <span class="search-box__icon">🔍</span>
+              </div>
             </div>
           </div>
           <div id="productsList" class="products-list"></div>

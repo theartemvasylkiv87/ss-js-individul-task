@@ -97,6 +97,7 @@ const cartOverlay = document.querySelector("#cartOverlay");
 const cartItemsContainer = document.querySelector("#cartItems");
 const cartTotalPriceEl = document.querySelector("#cartTotalPrice");
 const cartCountBadge = document.querySelector(".cart-count"); // Цифра біля іконки кошика
+const sortSelect = document.querySelector("#sortSelect");
 
 /* ==========================================
    3. EVENT LISTENERS (СЛУХАЧІ ПОДІЙ)
@@ -108,6 +109,8 @@ searchInput.addEventListener("input", searchProducts);
 cartBtn.addEventListener("click", toggleCartDrawer);
 closeCartBtn.addEventListener("click", toggleCartDrawer);
 cartOverlay.addEventListener("click", toggleCartDrawer);
+sortSelect.addEventListener("change", searchProducts);
+// Викликаємо ту саму функцію, що і пошук, щоб фільтри працювали разом
 
 /* ==========================================
    4. FUNCTIONS - PRODUCTS LIST (ВІТРИНА)
@@ -172,9 +175,23 @@ function deleteProduct(id) {
 
 function searchProducts() {
   const query = searchInput.value.toLowerCase();
-  const filteredProducts = products.filter((product) =>
+  const sortType = sortSelect.value;
+
+  // 1. Спочатку фільтруємо за текстом
+  let filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(query),
   );
+
+  // 2. Потім сортуємо відфільтрований список
+  if (sortType === "price-desc") {
+    // Від вищої до нижчої
+    filteredProducts.sort((a, b) => b.price - a.price);
+  } else if (sortType === "price-asc") {
+    // Від нижчої до вищої
+    filteredProducts.sort((a, b) => a.price - b.price);
+  }
+
+  // 3. Відображаємо фінальний результат
   renderProducts(filteredProducts);
 }
 
@@ -284,14 +301,14 @@ const ordersListContainer = document.querySelector("#ordersList");
 // Слухачі подій для навігації
 inventoryLink.addEventListener("click", (e) => {
   e.preventDefault();
-  shopView.classList.remove("is-hidden");   // Показуємо магазин
-  ordersView.classList.add("is-hidden");    // Ховаємо замовлення
+  shopView.classList.remove("is-hidden"); // Показуємо магазин
+  ordersView.classList.add("is-hidden"); // Ховаємо замовлення
 });
 
 // Слухач для кнопки "Orders"
 ordersLink.addEventListener("click", (e) => {
   e.preventDefault();
-  shopView.classList.add("is-hidden");      // Ховаємо магазин
+  shopView.classList.add("is-hidden"); // Ховаємо магазин
   ordersView.classList.remove("is-hidden"); // Показуємо замовлення
   renderOrders();
 });
@@ -339,7 +356,7 @@ function renderOrders() {
     .forEach((order) => {
       const orderEl = document.createElement("div");
       // Замість стилей в JS — просто даємо клас!
-      orderEl.classList.add("order-item"); 
+      orderEl.classList.add("order-item");
 
       orderEl.innerHTML = `
       <div class="order-item__header">
