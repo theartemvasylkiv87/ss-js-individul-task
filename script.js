@@ -270,6 +270,101 @@ function removeFromCart(index) {
   saveCartToLocalStorage();
 }
 
+// orders --- від цього коду розібратись
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+// DOM елементи для навігації
+const inventoryLink = document.querySelector("#inventoryLink");
+const ordersLink = document.querySelector("#ordersLink");
+const shopView = document.querySelector("#shopView");
+const ordersView = document.querySelector("#ordersView");
+const ordersListContainer = document.querySelector("#ordersList");
+
+// Слухачі подій для навігації
+inventoryLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  shopView.classList.remove("is-hidden");   // Показуємо магазин
+  ordersView.classList.add("is-hidden");    // Ховаємо замовлення
+});
+
+// Слухач для кнопки "Orders"
+ordersLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  shopView.classList.add("is-hidden");      // Ховаємо магазин
+  ordersView.classList.remove("is-hidden"); // Показуємо замовлення
+  renderOrders();
+});
+
+const checkoutBtn = document.querySelector("#checkoutBtn");
+
+checkoutBtn.addEventListener("click", () => {
+  if (cart.length === 0) {
+    alert("Ваш кошик порожній!");
+    return;
+  }
+
+  // Створюємо нове замовлення
+  const newOrder = {
+    id: `ORD-${Date.now()}`,
+    date: new Date().toLocaleString(),
+    items: [...cart],
+    total: cart.reduce((sum, item) => sum + item.price, 0),
+  };
+
+  orders.push(newOrder);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // Очищуємо кошик
+  cart = [];
+  saveCartToLocalStorage();
+  renderCart();
+  toggleCartDrawer();
+
+  alert("Замовлення успішно оформлено! Перевірте вкладку Orders.");
+});
+
+function renderOrders() {
+  ordersListContainer.innerHTML = "";
+
+  if (orders.length === 0) {
+    ordersListContainer.innerHTML = `<p class="orders-empty">У вас ще немає замовлень. 📋</p>`;
+    return;
+  }
+
+  // Виводимо замовлення (нові зверху)
+  orders
+    .slice()
+    .reverse()
+    .forEach((order) => {
+      const orderEl = document.createElement("div");
+      // Замість стилей в JS — просто даємо клас!
+      orderEl.classList.add("order-item"); 
+
+      orderEl.innerHTML = `
+      <div class="order-item__header">
+        <strong class="order-item__id">ID: ${order.id}</strong>
+        <span class="order-item__date">${order.date}</span>
+      </div>
+      <div class="order-item__content">
+        ${order.items
+          .map(
+            (item) => `
+          <div class="order-item__product">
+            <span class="order-item__product-name">${item.name}</span>
+            <span class="order-item__product-price">$${item.price.toFixed(2)}</span>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
+      <div class="order-item__footer">
+        Total: $${order.total.toFixed(2)}
+      </div>
+    `;
+      ordersListContainer.appendChild(orderEl);
+    });
+}
 /* ==========================================
    6. INITIALIZATION (ЗАПУСК ПРИ ЗАВАНТАЖЕННІ)
 ========================================== */

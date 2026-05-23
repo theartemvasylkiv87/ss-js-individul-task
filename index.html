@@ -22,8 +22,8 @@
         </div>
 
         <nav class="nav">
-          <a href="#" class="nav-link">Inventory</a>
-          <a href="#" class="nav-link">Orders</a>
+          <a href="#" class="nav-link" id="inventoryLink">Inventory</a>
+          <a href="#" class="nav-link" id="ordersLink">Orders</a>
           <a href="#" class="nav-link" id="cartLink"
             >Cart <span class="cart-count">0</span></a
           >
@@ -31,56 +31,72 @@
       </div>
     </header>
     <main class="main">
-      <section class="form">
-        <h2 class="form__title">➕ Register New Watch</h2>
-        <input
-          type="text"
-          placeholder="Brand & Model"
-          id="name"
-          class="form__input form__name"
-        />
-        <input
-          type="number"
-          placeholder="Price per unit ($)"
-          id="price"
-          class="form__input form__price"
-        />
-        <input
-          type="number"
-          placeholder="In Stock (pcs)"
-          id="qty"
-          class="form__input form__quantity"
-        />
-        <input
-          type="text"
-          placeholder="Image URL"
-          id="image"
-          class="form__input form__image"
-        />
-        <button class="form__button" id="addBtn">Add to Inventory</button>
-      </section>
+      <div id="shopView">
+        <section class="form">
+          <h2 class="form__title">➕ Register New Watch</h2>
+          <input
+            type="text"
+            placeholder="Brand & Model"
+            id="name"
+            class="form__input form__name"
+          />
+          <input
+            type="number"
+            placeholder="Price per unit ($)"
+            id="price"
+            class="form__input form__price"
+          />
+          <input
+            type="number"
+            placeholder="In Stock (pcs)"
+            id="qty"
+            class="form__input form__quantity"
+          />
+          <input
+            type="text"
+            placeholder="Image URL"
+            id="image"
+            class="form__input form__image"
+          />
+          <button class="form__button" id="addBtn">Add to Inventory</button>
+        </section>
 
-      <section class="inventory">
-        <div class="inventory__header">
-          <h2>🛒 Current Stock</h2>
-          <div class="search-box">
-            <input
-              type="text"
-              placeholder="Filter watches..."
-              id="searchInput"
-              class="search-box__input"
-            />
-            <span class="search-box__icon">🔍</span>
+        <section class="inventory">
+          <div class="inventory__header">
+            <h2>🛒 Current Stock</h2>
+            <div class="search-box">
+              <input
+                type="text"
+                placeholder="Filter watches..."
+                id="searchInput"
+                class="search-box__input"
+              />
+              <span class="search-box__icon">🔍</span>
+            </div>
           </div>
+          <div id="productsList" class="products-list"></div>
+        </section>
+
+        <section class="total">
+          <h2>💰 Financial Summary</h2>
+          <p id="totalPrice">Total Value: $0.00</p>
+        </section>
+      </div>
+
+      <div id="ordersView" class="orders-view is-hidden">
+        <div class="orders-view__container">
+          <header class="orders-view__header">
+            <h2 class="orders-view__title">📋 Order History</h2>
+            <p class="orders-view__subtitle">
+              Manage and track your recent purchases
+            </p>
+          </header>
+
+          <section class="orders-view__content">
+            <div id="ordersList" class="orders-list"></div>
+          </section>
         </div>
-
-        <div id="productsList" class="products-list"></div>
-      </section>
-
-      <section class="total">
-        <h2>💰 Financial Summary</h2>
-        <p id="totalPrice">Total Value: $0.00</p>
-      </section>
+      </div>
     </main>
     <footer class="footer"></footer>
 
@@ -99,7 +115,9 @@
       <div class="cart-drawer__footer">
         <div class="cart-drawer__total">
           <span class="cart-drawer__total-label">Subtotal:</span>
-          <span id="cartTotalPrice" class="cart-drawer__total-value">$0.00</span>
+          <span id="cartTotalPrice" class="cart-drawer__total-value"
+            >$0.00</span
+          >
         </div>
         <button class="cart-drawer__checkout" id="checkoutBtn">Checkout</button>
       </div>
